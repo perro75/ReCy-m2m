@@ -1,0 +1,118 @@
+*
+{
+	font-family: arial;
+}
+
+body
+{	
+	padding: 1em;
+}
+
+.header, .footer, .toplinks, .content
+{
+	width: 100%;
+	padding: 0.5em;
+}
+
+.header, .footer
+{
+	background-color: #333333;
+	color: white;
+	
+}
+
+.header h1
+{
+	padding: 0;
+	margin: 0;
+}
+
+.toplinks
+{
+	background-color: silver;
+}
+
+.toplinks a
+{
+	color: brown;
+}
+
+.content
+{
+	
+}
+
+.ON
+{
+  background-color: SpringGreen;
+  color:black;
+}
+
+.OFF
+{
+  background-color: gray;
+  color:white;
+}
+
+th.groupheader
+{
+  background-color: silver;
+  padding-top: 0.5em;
+}
+
+.analog td, .digital td, .hex td
+{
+  text-align: center;
+  border: solid;
+  border-color: silver;
+  padding: 10px;
+}
+
+.analog td.NA
+{
+  color: silver;
+}
+
+td.LDR1
+{
+	background-color: silver;
+}
+td.LDR1.high
+{
+	background-color: yellow;
+}
+td.LDR1.low
+{
+	background-color: black;
+	color: white;
+}
+
+td.TMP36
+{
+	background-color: SpringGreen;
+}
+
+td.TMP36.high
+{
+	background-color: LightPink;
+}
+
+td.TMP36.low
+{
+	background-color: LightSteelBlue;
+}
+
+td.high
+{
+	border-color: red;
+}
+
+td.low
+{
+	border-color: blue;
+}
+
+.TIMEOUT
+{
+  color: red;
+}

@@ -1,0 +1,33 @@
+<style>
+
+table.sensordata td
+{
+ vertical-align: top;
+ margin: 1em;
+ padding: 1em;
+}
+table.toplink td
+{
+	padding: 0.5em;
+}
+
+a.toplink
+{
+	color: brown;
+	margin-right: 1em;
+	width: 20em;
+}
+
+table.weekstats
+{
+	background-color: silver;
+	text-align: center;
+}
+
+table.weekstats td
+{
+	padding: 0.2em;
+	
+}
+
+</style>

@@ -36,74 +36,43 @@ echo @"
 </table>
 ";
 
+//call function that adds graph
 echo printStats($db, $ainData, $ain, $layer, $_GET);
 
-
-echo "<table class=\"sensordata\"><tr><td>";
-
-echo "<ul>";
- echo "<li>High limit: $high</li>";
- echo "<li>Low limit: $low</li>";
- echo "<li>Unit: ".toUnit($type)."</li>";
- echo "<li>Value/5V: ".toUnitVal(5000, $type)."</li>";
- echo "<li>Value/4V: ".toUnitVal(4000, $type)."</li>";
- echo "<li>Value/3V: ".toUnitVal(3000, $type)."</li>";
- echo "<li>Value/2V: ".toUnitVal(2000, $type)."</li>";
- echo "<li>Value/1V: ".toUnitVal(1000, $type)."</li>";
- echo "<li>Value/0V: ".toUnitVal(0000, $type)."</li>";
-echo "</ul>";
-
-
-//**** WEEKSTATS ****
-$res = $db->query(@"SELECT MAX(max$ain) as max, AVG(avg$ain) as avg, MIN(min$ain) as min, weekNo FROM ARANA_BY_HOUR WHERE layer = $layer GROUP BY weekNo ORDER BY ts DESC LIMIT 10 ");
-$res->setFetchMode(PDO::FETCH_NUM);
-echo "</td><td>";
-	echo "<table class=\"weekstats\"> <tr> <th>WEEK</th> <th>MIN</th> <th>AVG</th> <th>MAX</th> </tr>";
-
-	foreach ($res as $row)
-	{	
-		$min = sprintf ("%1.1f",toUnitVal($row[2], $type)).' '.toUnit($type);
-		$avg = sprintf ("%1.1f",toUnitVal($row[1], $type)).' '.toUnit($type);
-		$max = sprintf ("%1.1f",toUnitVal($row[0], $type)).' '.toUnit($type);
-		echo "<tr><td>".$row[3]."</td><td>$min</td><td>$avg</td><td>$max</td></tr>";
-	}
-
-	echo "</table>";
-
-//**** DAYSTATS ****
-$res = $db->query(@"SELECT MAX(max$ain) as max, AVG(avg$ain) as avg, MIN(min$ain) as min, dayNo FROM ARANA_BY_HOUR WHERE layer = $layer GROUP BY dayNo ORDER BY ts DESC LIMIT 10 ");
-$res->setFetchMode(PDO::FETCH_NUM);
-echo "</td><td>";
-	echo "<table class=\"weekstats\"> <tr> <th>DAY</th> <th>MIN</th> <th>AVG</th> <th>MAX</th> </tr>";
-
-	foreach ($res as $row)
-	{	
-		$min = sprintf ("%1.1f",toUnitVal($row[2], $type)).' '.toUnit($type);
-		$avg = sprintf ("%1.1f",toUnitVal($row[1], $type)).' '.toUnit($type);
-		$max = sprintf ("%1.1f",toUnitVal($row[0], $type)).' '.toUnit($type);
-		echo "<tr><td>".$row[3]."</td><td>$min</td><td>$avg</td><td>$max</td></tr>";
-	}
-
-	echo "</table>";
-
-//**** MINUTESTATS ****
-$res = $db->query(@"SELECT MAX(max$ain) as max, AVG(avg$ain) as avg, MIN(min$ain) as min, minuteNo FROM ARANA_BY_MIN WHERE layer = $layer GROUP BY minuteNo ORDER BY ts DESC LIMIT 10 ");
-$res->setFetchMode(PDO::FETCH_NUM);
-echo "</td><td>";
-	echo "<table class=\"weekstats\"> <tr> <th>MINUTE</th> <th>MIN</th> <th>AVG</th> <th>MAX</th> </tr>";
-
-	foreach ($res as $row)
-	{	
-		$min = sprintf ("%1.1f",toUnitVal($row[2], $type)).' '.toUnit($type);
-		$avg = sprintf ("%1.1f",toUnitVal($row[1], $type)).' '.toUnit($type);
-		$max = sprintf ("%1.1f",toUnitVal($row[0], $type)).' '.toUnit($type);
-		echo "<tr><td>".$row[3]."</td><td>$min</td><td>$avg</td><td>$max</td></tr>";
-	}
-
-	echo "</table>";
-
-echo "</td></tr></table>";
+//call functions that add statistics tables to bottom of page
+echo "<table class=\"sensordata\">";
+    echo "<tr><td>";
+        printStatsTable($db, $type, 'MONTH', @"SELECT MAX(max$ain) as max, AVG(avg$ain) as avg, MIN(min$ain) as min, monthNo FROM ARANA_BY_HOUR WHERE layer = $layer GROUP BY yearNo, monthNo ORDER BY ts DESC LIMIT 12");
+    echo "</td><td>";
+        printStatsTable($db, $type, 'WEEK', @"SELECT MAX(max$ain) as max, AVG(avg$ain) as avg, MIN(min$ain) as min, weekNo FROM ARANA_BY_HOUR WHERE layer = $layer GROUP BY yearNo, weekNo ORDER BY ts DESC LIMIT 12");
+    echo "</td><td>";
+        printStatsTable($db, $type, 'DAY', @"SELECT MAX(max$ain) as max, AVG(avg$ain) as avg, MIN(min$ain) as min, dayNo FROM ARANA_BY_HOUR WHERE layer = $layer GROUP BY yearNo, dayNo ORDER BY ts DESC LIMIT 12");
+    echo "</td></tr>";
+echo "</table>";
+    
 include 'lib/footer.php';
+
+//Print table statistics at bottom of page
+function printStatsTable($db, $type, $name, $query)
+{
+    //read data based on given query
+    $res = $db->query($query);
+    $res->setFetchMode(PDO::FETCH_NUM);
+    
+    //print table
+    echo "<table class=\"weekstats\"> <tr> <th>$name</th> <th>min</th> <th>avg</th> <th>max</th> </tr>";
+       
+    foreach ($res as $row)
+    {
+        $min = sprintf ("%1.1f",toUnitVal($row[2], $type)).' '.toUnit($type);
+        $avg = sprintf ("%1.1f",toUnitVal($row[1], $type)).' '.toUnit($type);
+        $max = sprintf ("%1.1f",toUnitVal($row[0], $type)).' '.toUnit($type);
+        echo "<tr><td>".$row[3]."</td><td>$min</td><td>$avg</td><td>$max</td></tr>";
+    }
+    
+    echo "</table>";
+}
+
 
 function printStats($db, $ainData, $ain, $layer, $_GET)
 {

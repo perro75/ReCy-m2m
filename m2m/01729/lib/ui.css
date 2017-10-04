@@ -10,8 +10,10 @@ body
 
 .header, .footer, .toplinks, .content
 {
-	width: 100%;
+	/*width: 100%;*/
 	padding: 0.5em;
+	float: left;
+	clear: both;
 }
 
 .header, .footer

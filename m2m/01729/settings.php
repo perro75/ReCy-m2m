@@ -20,6 +20,10 @@ $uiTitle = "ReCy - Mosavägen 317 A";
 $toplink_html = @"
 <a href=\"ui.php\">Etusivu</a>
 |
+<a href=\"ui3.php\">Pda</a>
+|
+<a href=\"ui3.php?refresh\">Refresh</a>
+|
 <a href=\"http://www.mickels.fi/cams/index.php\">Kamerat</a>";
 
 //the data-timeout in seconds (indication of timeout on screen)

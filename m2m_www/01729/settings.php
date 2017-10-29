@@ -14,7 +14,7 @@ include 'lib/sql.php';
 include '../HexCode.php';
 
 //Title and name of page
-$uiTitle = "ReCy - Mosavägen 317 A";
+$uiTitle = "ReCy-m2m - Mickels";
 
 //html to display at the top of ui-page
 $toplink_html = @"
@@ -27,7 +27,10 @@ $toplink_html = @"
 <a href=\"http://www.mickels.fi/cams/index.php\">Kamerat</a>";
 
 //the data-timeout in seconds (indication of timeout on screen)
-$timeout = 30;
+$timeout = 5;
+
+//use 20 seconds averaging of data if not overriden elsewhere
+$span = 20;
 
 include 'settings_data.php';
 

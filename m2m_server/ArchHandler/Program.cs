@@ -1,6 +1,6 @@
 ﻿/*
- 
- */
+ m2m- server software for reading 1-wire temps and sending data to remove server over http.
+*/
 using System;
 
 namespace ArchHandler
@@ -9,7 +9,7 @@ namespace ArchHandler
 	{
 		public static void Main(string[] args)
 		{
-			//INIFILE
+			//use inifile for storing data
 			var iniFile = new IniGroupFileRW("/root/script/w1_ini");
 			//The URL where to send data
 			string url = iniFile.getValue("URL");

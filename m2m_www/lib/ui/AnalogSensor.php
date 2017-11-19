@@ -112,7 +112,7 @@ class AnalogSensor
 	function getLastHourHistory()
 	{
 		$hist = new AnalogHistory();
-		$hist->readHistory($this->layer, $this->number, 60*12);
+		$hist->readHistory($this->layer, $this->number, 60);
 		return $hist;
 	}
 	

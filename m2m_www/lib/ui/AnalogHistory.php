@@ -29,7 +29,7 @@ class AnalogHistory
 	
 	function getChange($withSign = false)
 	{
-		$change = round($this->getLast() - $this->getFirst(),1);
+		$change = round($this->getFirst() - $this->getLast(),1);
 		
 		if ($withSign)
 		{

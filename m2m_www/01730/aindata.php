@@ -1,7 +1,7 @@
 <?php
 
 include 'settings.php';
-include 'lib/header.php';
+include $uiLibPath.'/header.php';
 
 $ain = $_GET['ain'];
 $layer = $_GET['layer'];
@@ -50,7 +50,7 @@ echo "<table class=\"sensordata\">";
     echo "</td></tr>";
 echo "</table>";
     
-include 'lib/footer.php';
+include $uiLibPath.'/footer.php';
 
 //Print table statistics at bottom of page
 function printStatsTable($db, $type, $name, $query)

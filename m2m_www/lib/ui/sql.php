@@ -1,5 +1,39 @@
 <?php
 
+function getAranaHistoryByMinute($layer, $number, $minutes)
+{
+	
+	$ain = "$number";
+	
+	return
+	"SELECT 
+	AVG(avg$ain) as avg,
+	MAX(max$ain) as max,
+	MIN(min$ain) as min
+	FROM ARANA_BY_MIN  
+	WHERE layer = $layer 
+	GROUP BY yearNo, dayNo, hourNo, minuteNo  
+	ORDER BY ts DESC LIMIT $minutes
+	";
+}
+	
+function getAranaHistoryByHour($layer, $number, $hours)
+{
+	
+	$ain = "$number";
+	
+	return
+	"SELECT 
+	AVG(avg$ain) as avg,
+	MAX(max$ain) as max,
+	MIN(min$ain) as min
+	FROM ARANA_BY_HOUR  
+	WHERE layer = $layer 
+	GROUP BY yearNo, dayNo, hourNo  
+	ORDER BY ts DESC LIMIT $hours
+	";
+}
+
 function getLastArdio()
 {
 	// get the last update of digitaldata

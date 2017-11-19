@@ -1,19 +1,6 @@
 <?php
-/*
-* Data in the settings-file is project specific and usually changed for each project.
-* 
-*/
-
-//**** NAMES FOR bits 
-//Outputs 8..11 bits 0..3
-//$bitName[0] = "RED LED";
-//$bitName[1] = "GREEN LED";
-//$bitName[2] = "YELLOW LED";
-//$bitName[7] = "TEST";
-
-//Names for AIN
-//layer 0...7 -> ain 1..6
-
+//SENSOR DATA SETTINGS
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++
 $ainData[1][4]['group'] = "A_UTE|1";
 $ainData[1][4]['name'] = "UTOMHUS";
 $ainData[1][4]['type'] = "18B20";
@@ -74,60 +61,26 @@ $ainData[1][2]['type'] = "18B20";
 $ainData[1][2]['high'] = 25.0;
 $ainData[1][2]['low'] = 10.0;
 
-
-
-
-
 $ainData[1][5]['group'] = "C_VÄRME|5";
 $ainData[1][5]['name'] = "RETUR";
 $ainData[1][5]['type'] = "18B20";
 $ainData[1][5]['high'] = 35.0;
 $ainData[1][5]['low'] = 12.0;
 
-
 $uiBit[1]['normal'] = true;
 $uiBit[1]['alarm'] = true;
 $uiBit[1]['namenormal'] = 'AC 220V OK';
 $uiBit[1]['namealarm'] = 'Strömavbrott';
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 /*
-$analogSensors = array();
-
-//create AnalogSensor- objects
-foreach($ainData as $layer)
-{
-    $laynum++;
-    foreach($layer as $ain)
-    {
-        $ainum++;
-    }
-}
-
-public class AnalogSensor
-{
-    
-    $layer, $number, $group, $name, $type, $high, $low, $value;
-    
-    function AnalogSensor($layer, $number)
-    {
-        $this->layer = $layer;
-        $this->number = $number;
-    }
-    
-    function setDefinedData($group, $name, $type, $high, $low)
-    {
-        $this->group = $group;
-        $this->name = $name;
-        $this->type = $type;
-        $this->high = $high;
-        $this->low = $low;
-    }
-    
-    function setValue($value)
-    {
-        $this->value = $value;
-    }
-    
-}
+//**** NAMES FOR bits 
+//Outputs 8..11 bits 0..3
+//$bitName[0] = "RED LED";
+//$bitName[1] = "GREEN LED";
+//$bitName[2] = "YELLOW LED";
+//$bitName[7] = "TEST";
 */
 ?>

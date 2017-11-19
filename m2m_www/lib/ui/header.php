@@ -22,7 +22,7 @@
   </div>
   
   <div class="toplinks">
-    <?php echo $toplink_html; ?>
+    <?php //echo $toplink_html; ?>
   </div>
  
   <div class="ui content">

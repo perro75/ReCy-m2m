@@ -1,16 +1,14 @@
 <?php 
-//refresh every 5 seconds if set
+
+//refresh every 5 seconds if parameter set
 if(isset($_GET['refresh'])) 
 {
     echo '<meta http-equiv="refresh" content="5">';
 } 
 
-$uiBaseUrl = "http".(!empty($_SERVER['HTTPS'])?"s":"")."://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-$uiBasePath = realPath(null);
-
-echo $uiBaseUrl;
-echo "<br>";
-echo $uiBasePath;
+ // Additional includes are made through the settings-php
+ include 'settings.php';
+ 
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,15 +35,14 @@ echo $uiBasePath;
 		integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" 
 		crossorigin="anonymous">
 	
-  <title>ReCy-m2m</title>
- </head>
+  <title><?php echo $uiTitle;?></title>
+
+  </head>
 
 <body>
 
 <?php 
- 
- // Additional includes are made through the settings-php
- include 'settings.php';
+
 
  //add 
  $ainData = readAinData($db, $ainData, $timeout, $span);
@@ -150,7 +147,7 @@ echo $uiBasePath;
  ?>
  
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">ReCy-m2m - MICKELS</a>
+      <a class="navbar-brand" href="#"><?php echo $uiTitle;?></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -178,15 +175,55 @@ echo $uiBasePath;
       <th>Age</th>
       <th>Name</th>
 	  <th>Value</th>
+	  <th>Trend</th>
 	  <th>Stats</th>
     </tr>
   </thead>
   <tbody >
 	<?php 
-	
-	foreach(trAinData($ainData) as $tr)
+
+	foreach($analogSensorSet->getGroups() as $groupName)
 	{
-	    echo $tr;	    
+		echo '<th class="bg-dark text-white text-center p-0" colspan=5><span>'.$groupName.'</span></th></tr>';
+		foreach($analogSensorSet->getSensorsInGroup($groupName) as $sensor)
+		{
+			$history = $sensor->getLastHourHistory();
+			$trend = $history->getChange(true);
+			$val = $sensor->getValue();
+			$name = $sensor->getName();
+			$age = $sensor->getDataAge();
+			
+			$highLimit = $sensor->getHighLimit();
+			$lowLimit = $sensor->getLowLimit();
+			
+			$classAged = "text-secondary";
+			
+            $valLow =  "text-primary";
+            $valHigh = "text-danger";
+            
+			$trendUp =  "text-success";
+            $trendDown = "text-primary";
+            
+            $trClass = ($age > $timeout) ? $classAged : "none";
+			
+            $valClass = $val > $highLimit ? $valHigh : "none";
+			$valClass = $val < $lowLimit ? $valLow : $valClass;
+			
+			$trendClass = $trend > 1 ? $trendUp : "none";
+			$trendClass = $trend < -1 ? $trendDown : $trendClass;
+			
+			$laynum = $sensor->getLayer();
+			$ainum = $sensor->getNumber();
+			
+			$trendLink = "$uiBaseUrl/aindata.php?layer=$laynum&ain=$ainum&type=short";
+			
+			echo '<tr class="'.$trClass.'">';
+			echo "<td>$age</td><td>$name</td><td class=$valClass>$val</td>";
+			echo "<td class=$trendClass>$trend/h</td>";
+			echo "<td><a href=\"$trendLink\">".'<img src="lib/arrow.png" width=25></a></td>';
+            echo '</tr>';
+		}
+	
 	}
 	
 	?>

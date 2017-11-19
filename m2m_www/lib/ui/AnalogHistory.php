@@ -11,11 +11,16 @@ class AnalogHistory
 		
 	}
 	
-	function readHistory($layer, $number, $limit)
+	function readHistory($layer, $number, $limit, $byHour)
 	{
 		//FIXME
 		global $db;
+		
+
 		$sql = getAranaHistoryByMinute($layer, $number, $limit);
+		if ($byHour)
+			$sql = getAranaHistoryByHour($layer, $number, $limit);
+		
 		$res = $db->query($sql);
 		//$res->setFetchMode(PDO::FETCH_NUM);
 		
@@ -62,6 +67,18 @@ class AnalogHistory
 	function getMax()
 	{
 		return max($this->avg);
+	}
+	
+	function chartistXy()
+	{
+		//{x:1, y:17}, {x:2, y:18},{x:3, y:19},{x:4, y:18},{x:55, y:20}
+		$labels = array();
+		
+		foreach ($this->avg as $k=>$v)
+		{
+			$labels[] = "{x:$k, y:$v}";
+		}
+		return implode(', ', $labels);
 	}
 	
 	function printHistory()

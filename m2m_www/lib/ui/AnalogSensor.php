@@ -39,7 +39,16 @@ class AnalogSensorSet
 		return $sensors;
 	}
 	
-	
+	function getSensorInLayer($layer, $number)
+	{
+		foreach($this->analogSensors as $a)
+		{
+			if ($a->getLayer()==$layer && $a->getNumber()==$number)
+				return $a;
+		}
+		
+		return $null;
+	}
 }
 
 class AnalogSensor
@@ -109,10 +118,11 @@ class AnalogSensor
 		return $this->type;
 	}
 	
-	function getLastHourHistory()
+	function getLastHourHistory($hours = 1, $byHour = false)
 	{
 		$hist = new AnalogHistory();
-		$hist->readHistory($this->layer, $this->number, 60);
+		$coeff = $byHour ? 1 : 60;
+		$hist->readHistory($this->layer, $this->number, $coeff * ($hours + 1), $byHour);
 		return $hist;
 	}
 	

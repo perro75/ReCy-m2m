@@ -5,19 +5,23 @@ $hours = $_GET['hours'];
 
 $sensor = $analogSensorSet->getSensorInLayer($layer, $number);
 
-if ($hours > 3)
-{	
-	$history = $sensor->getLastHourHistory($hours, true);
-}
-else
-{
-	$history = $sensor->getLastHourHistory($hours);
-}
+$history = $sensor->getLastHourHistory($hours, true);
 
 $trend = $history->getChange(true);
 
 ?>
-<h3><?php echo $sensor->getName(). " ($trend/$hours h)"; ?></h3>
+<h3><?php echo $sensor->getName(); ?></h3>
+
+<div class="row">
+	<div class="col-xs-6 col-md-2"><?php echo number_format((float)$trend, 1, '.', '') ."C /$hours h"; ?></div>
+	<div class="col-xs-6 col-md-2"><?php echo number_format((float)$trend / $hours, 1, '.', '') ."C /1 h"; ?></div>
+	<div class="col-xs-6 col-md-2"> <?php echo number_format((float)$trend / $hours * 24, 1, '.', '') ."C /24h"; ?></div>
+	<div class="col-xs-6 col-md-2"> <?php echo "Min: ".number_format((float)$history->getMin(), 1, '.', '')."C"; ?></div>
+	<div class="col-xs-6 col-md-2"> <?php echo "Max: ".number_format((float)$history->getMax(), 1, '.', '')."C"; ?></div>
+	<div class="col-xs-6 col-md-2"> <?php echo "Avg: ".number_format((float)$history->getAvg(), 1, '.', '')."C"; ?></div>
+</div>
+<hr/>
+
 <div class="ct-chart ct-perfect-fourth"></div>
 	
 <script>
@@ -61,3 +65,13 @@ var options = {
 
 new Chartist.Line('.ct-chart', data, options);
 </script>
+
+<div class="row">
+	<div class="col-md-2"><?php echo "<a href=\"?display=trend&layer=$layer&number=$number&hours=6\">6h</a>"; ?></div>
+	<div class="col-md-2"><?php echo "<a href=\"?display=trend&layer=$layer&number=$number&hours=24\">24h</a>"; ?></div>
+	<div class="col-md-2"><?php echo "<a href=\"?display=trend&layer=$layer&number=$number&hours=73\">3vrk</a>"; ?></div>
+	<div class="col-md-2"><?php echo "<a href=\"?display=trend&layer=$layer&number=$number&hours=168\">1vko</a>"; ?></div>
+	<div class="col-md-2"><?php echo "<a href=\"?display=trend&layer=$layer&number=$number&hours=720\">1kk</a>"; ?></div>
+	<div class="col-md-2"><?php echo "<a href=\"?display=trend&layer=$layer&number=$number&hours=4320\">6kk</a>"; ?></div>
+	
+</div>

@@ -5,8 +5,7 @@
       <th>Name</th>
 	  <th>Value</th>
 	  <th>Trend</th>
-	  <th>Stats</th>
-    </tr>
+	</tr>
   </thead>
   <tbody >
   
@@ -20,9 +19,11 @@
 		echo '<th class="bg-dark text-white text-center p-0" colspan=5><span>'.$groupName.'</span></th></tr>'."\r\n";
 		foreach($analogSensorSet->getSensorsInGroup($groupName) as $sensor)
 		{
-			$history = $sensor->getLastHourHistory(6);
+			$history = $sensor->getLastHourHistory(6, true);
 			$trend = $history->getChange(true);
+				$trend = number_format((float)$trend, 1, '.', ''); //format to always have 1 decimal
 			$val = $sensor->getValue();
+				$val = number_format((float)$val, 1, '.', ''); //format to always have 1 decimal
 			$name = $sensor->getName();
 			$age = $sensor->getDataAge();
 			
@@ -49,20 +50,14 @@
 			$ainum = $sensor->getNumber();
 			
 			//link to trend-display
-			//$trendLink = "$uiBaseUrl/aindata.php?layer=$laynum&ain=$ainum&type=short";
-			$trendLink1 = "$uiBaseUrl?display=trend&layer=$laynum&number=$ainum&hours=1";
-			$trendLink2 = "$uiBaseUrl?display=trend&layer=$laynum&number=$ainum&hours=12";
-			$trendLink3 = "$uiBaseUrl?display=trend&layer=$laynum&number=$ainum&hours=24";
-			
-			
+			$trendLink = "$uiBaseUrl?display=trend&layer=$laynum&number=$ainum&hours=6";
+						
 			echo '<tr class="'.$trClass.'">';
 			echo "<td>$age</td><td>$name</td>";
 			echo "<td class=$valClass>$val</td>";
-			echo "<td class=$trendClass>$trend/6h</td>";
-			echo "<td><a href=\"$trendLink1\">1</a>|<a href=\"$trendLink2\">12</a>|<a href=\"$trendLink3\">24h</a></td>";
-            echo '</tr>',"\r\n";
+			echo "<td class=$trendClass><a target=\"_blank\" href=\"$trendLink\">$trend/6h</a></td>";
+			echo '</tr>',"\r\n";
 		}
-	
 	}
 	
 	?>

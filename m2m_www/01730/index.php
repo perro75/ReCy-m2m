@@ -63,7 +63,6 @@ if(isset($_GET['refresh']))
 			width: 100%;
 		}
 		
-		
 	</style>
 	
   <title><?php echo $uiTitle;?></title>
